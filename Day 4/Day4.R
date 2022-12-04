@@ -12,23 +12,23 @@ containment <- function(assignments) {
 }
 
 overlap <- function(assignments) {
-    if (assignments[1] <= assignments[3] && assignments[2] >= assignments[3] || assignments[1] <= assignments[4] && assignments[2] >= assignments[4]) {
+    if (assignments[1] >= assignments[3] && assignments[1] <= assignments[4] || assignments[2] <= assignments[4] && assignments[2] >= assignments[3]) {
         return(1)
     } else {
         return(0)
     }
 }
 
-edge <- function(assignments) {
-    if (assignments[1] == assignments[3] && assignments[2] == assignments[4] || assignments[1] == assignments[3] && assignments[2] == assignments[4]) {
+both <- function(assignments) {
+    if (containment(assignments) == 1 && overlap(assignments) == 1) {
         return(1)
     } else {
-    return(0)
+        return(0)
+    }
 }
 
-}
 p1_total <- sum(apply(input, 1, containment))
-p2_total <- sum(apply(input, 1, overlap)) + p1_total - sum(apply(input, 1, edge))
+p2_total <- p1_total + sum(apply(input, 1, overlap)) - sum(apply(input, 1, both))
 
 print(p1_total)
 print(p2_total)
