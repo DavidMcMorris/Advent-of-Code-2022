@@ -7,10 +7,10 @@ flag <- "F"
 i <- 1
 
 while (flag == "F") {
-    word <- input[i:(i + 13)]
-    if (length(unique(word)) == 14) {
+    word <- input[i:(i + 3)]
+    if (length(unique(word)) == 4) {
         flag <- "T"
-        print(i + 13)
+        print(i + 3)
     }
     i <- i + 1
 }
