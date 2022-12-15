@@ -38,13 +38,11 @@ t_updater <- function(tc, hc) {
         } else if (hc[1] > tc[1] && hc[2] > tc[2]) {
             tc <- tc + 1
         } else if (hc[1] > tc[1] && hc[2] < tc[2]) {
-            tc[1] <- tc[1] + 1
-            tc[2] <- tc[2] - 1
+            tc <- tc + c(1, -1)
         } else if (hc[1] < tc[1] && hc[2] < tc[2]) {
             tc <- tc - 1
         } else {
-            tc[1] <- tc[1] - 1
-            tc[2] <- tc[2] + 1
+            tc <- tc + c(-1, 1)
         }
     }
     return(tc)
