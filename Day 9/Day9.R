@@ -1,6 +1,6 @@
 # 2022 Day 9
 
-input <- read.table("Day_9_input.txt", colClasses = c("character", "numeric"), col.names = c("Direction", "Moves"))
+input <- read.table("Day_9_input.txt", colClasses = c("character", "numeric"))
 
 part <- 1
 
@@ -60,11 +60,10 @@ for (i in seq_len(dim(input)[1])) {
     }
     for (j in seq_len(input[i, 2])) {
         h_coord <- h_coord + update
+        t_coord1 <- t_updater(t_coord1, h_coord)
         if (part == 1) {
-           t_coord1 <- t_updater(t_coord1, h_coord)
            t_path <- rbind(t_path, t_coord1)
         } else {
-           t_coord1 <- t_updater(t_coord1, h_coord)
            t_coord2 <- t_updater(t_coord2, t_coord1)
            t_coord3 <- t_updater(t_coord3, t_coord2)
            t_coord4 <- t_updater(t_coord4, t_coord3)
