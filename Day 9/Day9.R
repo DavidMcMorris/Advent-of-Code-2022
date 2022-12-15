@@ -52,80 +52,30 @@ t_updater <- function(tc, hc) {
 
 for (i in seq_len(dim(input)[1])) {
     if (input[i, 1] == "U") {
-        for (j in seq_len(input[i, 2])) {
-            h_coord[2] <- h_coord[2] + 1
-            if (part == 1) {
-               t_coord1 <- t_updater(t_coord1, h_coord)
-               t_path <- rbind(t_path, t_coord1)
-            } else {
-            t_coord1 <- t_updater(t_coord1, h_coord)
-            t_coord2 <- t_updater(t_coord2, t_coord1)
-            t_coord3 <- t_updater(t_coord3, t_coord2)
-            t_coord4 <- t_updater(t_coord4, t_coord3)
-            t_coord5 <- t_updater(t_coord5, t_coord4)
-            t_coord6 <- t_updater(t_coord6, t_coord5)
-            t_coord7 <- t_updater(t_coord7, t_coord6)
-            t_coord8 <- t_updater(t_coord8, t_coord7)
-            t_coord9 <- t_updater(t_coord9, t_coord8)
-            t_path <- rbind(t_path, t_coord9)
-            }
-        }
-   } else if (input[i, 1] == "D") {
-        for (j in seq_len(input[i, 2])) {
-            h_coord[2] <- h_coord[2] - 1
-            if (part == 1) {
-               t_coord1 <- t_updater(t_coord1, h_coord)
-               t_path <- rbind(t_path, t_coord1)
-            } else {
-            t_coord1 <- t_updater(t_coord1, h_coord)
-            t_coord2 <- t_updater(t_coord2, t_coord1)
-            t_coord3 <- t_updater(t_coord3, t_coord2)
-            t_coord4 <- t_updater(t_coord4, t_coord3)
-            t_coord5 <- t_updater(t_coord5, t_coord4)
-            t_coord6 <- t_updater(t_coord6, t_coord5)
-            t_coord7 <- t_updater(t_coord7, t_coord6)
-            t_coord8 <- t_updater(t_coord8, t_coord7)
-            t_coord9 <- t_updater(t_coord9, t_coord8)
-            t_path <- rbind(t_path, t_coord9)
-            }
-        }
+        update <- c(0, 1)
+    } else if (input[i, 1] == "D") {
+        update <- c(0, -1)
     } else if (input[i, 1] == "L") {
-        for (j in seq_len(input[i, 2])) {
-            h_coord[1] <- h_coord[1] - 1
-            if (part == 1) {
-               t_coord1 <- t_updater(t_coord1, h_coord)
-               t_path <- rbind(t_path, t_coord1)
-            } else {
-            t_coord1 <- t_updater(t_coord1, h_coord)
-            t_coord2 <- t_updater(t_coord2, t_coord1)
-            t_coord3 <- t_updater(t_coord3, t_coord2)
-            t_coord4 <- t_updater(t_coord4, t_coord3)
-            t_coord5 <- t_updater(t_coord5, t_coord4)
-            t_coord6 <- t_updater(t_coord6, t_coord5)
-            t_coord7 <- t_updater(t_coord7, t_coord6)
-            t_coord8 <- t_updater(t_coord8, t_coord7)
-            t_coord9 <- t_updater(t_coord9, t_coord8)
-            t_path <- rbind(t_path, t_coord9)
-            }
-        }
+        update <- c(-1, 0)
     } else {
-        for (j in seq_len(input[i, 2])) {
-            h_coord[1] <- h_coord[1] + 1
-            if (part == 1) {
-               t_coord1 <- t_updater(t_coord1, h_coord)
-               t_path <- rbind(t_path, t_coord1)
-            } else {
-            t_coord1 <- t_updater(t_coord1, h_coord)
-            t_coord2 <- t_updater(t_coord2, t_coord1)
-            t_coord3 <- t_updater(t_coord3, t_coord2)
-            t_coord4 <- t_updater(t_coord4, t_coord3)
-            t_coord5 <- t_updater(t_coord5, t_coord4)
-            t_coord6 <- t_updater(t_coord6, t_coord5)
-            t_coord7 <- t_updater(t_coord7, t_coord6)
-            t_coord8 <- t_updater(t_coord8, t_coord7)
-            t_coord9 <- t_updater(t_coord9, t_coord8)
-            t_path <- rbind(t_path, t_coord9)
-            }
+        update <- c(1, 0)
+    }
+    for (j in seq_len(input[i, 2])) {
+        h_coord <- h_coord + update
+        if (part == 1) {
+           t_coord1 <- t_updater(t_coord1, h_coord)
+           t_path <- rbind(t_path, t_coord1)
+        } else {
+           t_coord1 <- t_updater(t_coord1, h_coord)
+           t_coord2 <- t_updater(t_coord2, t_coord1)
+           t_coord3 <- t_updater(t_coord3, t_coord2)
+           t_coord4 <- t_updater(t_coord4, t_coord3)
+           t_coord5 <- t_updater(t_coord5, t_coord4)
+           t_coord6 <- t_updater(t_coord6, t_coord5)
+           t_coord7 <- t_updater(t_coord7, t_coord6)
+           t_coord8 <- t_updater(t_coord8, t_coord7)
+           t_coord9 <- t_updater(t_coord9, t_coord8)
+           t_path <- rbind(t_path, t_coord9)
         }
     }
 }
