@@ -2,6 +2,7 @@
 
 input <- read.table("Day_10_input.txt", sep = "", fill = TRUE, colClasses = c("character", "numeric"), row.names = NULL, col.names = c("V1", "V2"))
 
+# Part 1
 tick <- 0
 value <- 1
 strength <- NULL
@@ -27,6 +28,7 @@ for (i in seq_len(dim(input)[1])) {
 
 print(sum(strength))
 
+# Part 2
 tick <- 0
 value <- 1
 pixels <- NULL
