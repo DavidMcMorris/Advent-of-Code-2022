@@ -1,7 +1,9 @@
 # 2022 Day 11
 
 input <- readLines("Day_11_input.txt")
-# input <- readLines("Test.txt")
+
+num_rounds <- 10000
+div_3 <- 0  #Set to 0 to not divide by 3
 
 num_monks <- (length(input) + 1) / 7
 monk_list <- NULL
@@ -40,15 +42,22 @@ div_test_value <- function(monk) {
 
 inspection <- function(monk, items) {
     items <- operation(monk, items)
-    items <- floor(items / 3)
+    if (div_3 != 0) {
+        items <- floor(items / 3)
+    }
     return(items)
 }
 
-round <- function(monk_list, num_inspections) {
+round <- function(monk_list, num_inspections, div_test_prod) {
     for (i in 1:num_monks) {
         monk <- i - 1
         if (!is.na(monk_list[[i]][1])) {
             new_level <- inspection(monk, monk_list[[i]])
+            for (k in seq_along(new_level)) {
+                if (new_level[k] > div_test_prod) {
+                    new_level[k] <- new_level[k] %% div_test_prod
+                }
+            }
             test_val <- div_test_value(monk)
             div_result <- new_level %% test_val
             where_t <- where_next(monk, 0) + 1
@@ -68,8 +77,13 @@ round <- function(monk_list, num_inspections) {
     return(return_list)
 }
 
-for (i in 1:20) {
-    output_list <- round(monk_list, num_inspections)
+div_test_prod <- 1
+for (i in 1:num_monks) {
+    div_test_prod <- div_test_prod * div_test_value(i - 1)
+}
+
+for (i in 1:num_rounds) {
+    output_list <- round(monk_list, num_inspections, div_test_prod)
     monk_list <- output_list[[1]]
     num_inspections <- output_list[[2]]
 }
