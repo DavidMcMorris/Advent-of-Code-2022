@@ -20,3 +20,24 @@ for (i in which(input == "")){
 x <- text_to_list(input_split[[i + 1]])
 y <- text_to_list(input_split[[i + 2]])
 pair_list[[ind + 1]] <- list(x, y)
+
+
+left_ind <- 1
+right_ind <- 1
+
+compare <- function(left_list, right_list, left_ind, right_ind) {
+    left <- left_list[[left_ind]]
+    right <- right_list[[right_ind]]
+    print(c(left_ind, right_ind))
+    if (is.numeric(left) && is.numeric(right)) {
+        if (left < right) {
+            return(1)
+        }
+        if (left > right) {
+            return(0)
+        }
+        if (left == right) {
+            compare(left_list, right_list, left_ind + 1, right_ind + 1)
+        }
+    }
+}
