@@ -1,6 +1,6 @@
 # 2022 Day 13
 
-input <- readLines("Day_13_test_input.txt")
+input <- readLines("Day_13_input.txt")
 input_split <- lapply(lapply(input, strsplit, split = ""), unlist)
 
 text_to_list <- function(x) {
@@ -26,9 +26,20 @@ left_ind <- 1
 right_ind <- 1
 
 compare <- function(left_list, right_list, left_ind, right_ind) {
+    x <- 0
+    left_length <- length(left_list)
+    right_length <- length(right_list)
+    if (left_ind > left_length && right_ind <= right_length) {
+        return(1)
+    }
+    if (left_ind <= left_length && right_ind > right_length) {
+        return(0)
+    }
+    if (left_ind > left_length && right_ind > right_length) {
+        return(2)
+    }
     left <- left_list[[left_ind]]
     right <- right_list[[right_ind]]
-    print(c(left_ind, right_ind))
     if (is.numeric(left) && is.numeric(right)) {
         if (left < right) {
             return(1)
@@ -37,7 +48,24 @@ compare <- function(left_list, right_list, left_ind, right_ind) {
             return(0)
         }
         if (left == right) {
-            compare(left_list, right_list, left_ind + 1, right_ind + 1)
+            x <- compare(left_list, right_list, left_ind + 1, right_ind + 1)
         }
+    } else if (is.list(left) && is.list(right)) {
+        x <- compare(left_list[[left_ind]], right_list[[right_ind]], 1, 1)
+    } else if (is.list(left) && is.numeric(right)) {
+        x <- compare(left_list[[left_ind]], list(right_list[[right_ind]]), 1, 1)
+    } else if (is.list(right) && is.numeric(left)) {
+        x <- compare(list(left_list[[left_ind]]), right_list[[right_ind]], 1, 1)
     }
+    if (x == 2) {
+        x <- compare(left_list, right_list, left_ind + 1, right_ind + 1)
+    }
+    return(x)
 }
+
+a <- NULL
+for (i in seq_along(pair_list)) {
+    a <- c(a, compare(pair_list[[i]][[1]], pair_list[[i]][[2]], 1, 1))
+}
+
+print(sum(which(a == 1)))
