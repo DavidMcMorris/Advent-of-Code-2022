@@ -44,7 +44,12 @@ for (i in 1:nrow(coordmat)) {
     cave[coordmat[i, 2], coordmat[i, 1]] <- 1
 }
 
+buffer <- 300
+cave2 <- cbind(matrix(0, nrow = nrow(cave), ncol = buffer), cave, matrix(0, nrow = nrow(cave), ncol = buffer))
+cave2 <- rbind(cave2, rep(1, ncol(cave2)))
+source_pt2 <- c(source_pt[1] + buffer, source_pt[2])
 rocks <- sum(cave)
+rocks2 <- sum(cave2)
 previous_number <- -1
 current_number <- 0
 
@@ -71,6 +76,14 @@ while (current_number != previous_number) {
         resting_coord <- falling(cave, source_pt[2], source_pt[1])
         cave[resting_coord[1], resting_coord[2]] <- 1
     }
-    cave[height] <- rep(0, width)
+    cave[height,] <- rep(0, width)
     current_number <- sum(cave)
 }
+print(current_number - rocks)
+
+while (cave2[source_pt2[2], source_pt2[1]] != 1) {
+    resting_coord <- falling(cave2, source_pt2[2], source_pt2[1])
+    cave2[resting_coord[1], resting_coord[2]] <- 1
+}
+
+print(sum(cave2) - rocks2)
