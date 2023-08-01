@@ -1,6 +1,6 @@
 # 2022 Day 14
 
-input <- readLines("Day_14_test_input.txt")
+input <- readLines("Day_14_input.txt")
 input <- unlist(lapply(input, strsplit, split = " -> "), recursive = FALSE)
 
 path2vec <- function(path) {
@@ -40,7 +40,37 @@ source_pt[1] <- source_pt[1] - max_coord_x + width
 source_pt[2] <- source_pt[2] + 1
 
 cave <- matrix(0, nrow = height, ncol = width)
-cave[source_pt[2], source_pt[1]] <- 9
 for (i in 1:nrow(coordmat)) {
     cave[coordmat[i, 2], coordmat[i, 1]] <- 1
+}
+
+rocks <- sum(cave)
+previous_number <- -1
+current_number <- 0
+
+falling <- function(mat, r, c) {
+    r <- min(which(mat[r:nrow(mat), c] == 1)) + r - 2
+    if (mat[r + 1, c - 1] == 0) {
+        r <- r + 1
+        c <- c - 1
+        falling(mat, r, c)
+    } else if (mat[r + 1, c + 1] == 0) {
+        r <- r + 1
+        c <- c + 1
+        falling(mat, r, c)
+    } else {
+        return(c(r, c))
+    }
+}
+
+while (current_number != previous_number) {
+    previous_number <- current_number
+    if (cave[source_pt[2], source_pt[1]] == 1) {
+        break
+    } else {
+        resting_coord <- falling(cave, source_pt[2], source_pt[1])
+        cave[resting_coord[1], resting_coord[2]] <- 1
+    }
+    cave[height] <- rep(0, width)
+    current_number <- sum(cave)
 }
