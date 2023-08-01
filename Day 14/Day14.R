@@ -76,7 +76,7 @@ while (current_number != previous_number) {
         resting_coord <- falling(cave, source_pt[2], source_pt[1])
         cave[resting_coord[1], resting_coord[2]] <- 1
     }
-    cave[height,] <- rep(0, width)
+    cave[height, ] <- rep(0, width)
     current_number <- sum(cave)
 }
 print(current_number - rocks)
