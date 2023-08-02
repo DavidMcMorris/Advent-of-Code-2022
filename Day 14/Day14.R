@@ -40,7 +40,7 @@ source_pt[1] <- source_pt[1] - max_coord_x + width
 source_pt[2] <- source_pt[2] + 1
 
 cave <- matrix(0, nrow = height, ncol = width)
-for (i in 1:nrow(coordmat)) {
+for (i in seq_len(nrow(coordmat))) {
     cave[coordmat[i, 2], coordmat[i, 1]] <- 1
 }
 
