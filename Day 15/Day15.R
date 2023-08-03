@@ -13,11 +13,6 @@ input <- matrix(input, ncol = 4, byrow = TRUE)
 
 input <- cbind(input, rowSums(abs(input[, 1:2] - input[, 3:4])))
 
-tc_dist <- function(a, b) {
-    distance <- sum(abs(a - b))
-    return(distance)
-}
-
 check_lvl <- function(sensor, level) {
     dist2lvl <- abs(sensor[2] - level)
     if (dist2lvl > sensor[5]) {
@@ -34,21 +29,47 @@ seen_at_lvl <- length(unique(seen_at_lvl[which(!is.na(seen_at_lvl))]))
 beacons_at_lvl <- sum(unique(input[, 3:4])[, 2] == lvl)
 
 print(seen_at_lvl - beacons_at_lvl)
-counter <- 0
-total <- max * max
 
-for (i in 0:max) {
-    for (j in 0:max) {
+# Part 2
+
+tc_dist <- function(a, b) {
+    distance <- sum(abs(a - b))
+    return(distance)
+}
+
+just_outside <- function(sensor, max) {
+    d <- sensor[5] + 1
+    x <- seq(sensor[1] - d, sensor[1] + d, 1)
+    upper_y <- d - abs(x - sensor[1]) + sensor[2]
+    lower_y <- -upper_y + 2 * sensor[2]
+    locations <- unique(cbind(c(x, x), c(upper_y, lower_y)))
+    validity <- locations <= max & locations >= 0
+    validity <- which(rowSums(validity) == 2)
+    locations <- locations[validity, ]
+    return(locations)
+}
+
+for (k in seq_len(nrow(input))) {
+    search_space <- just_outside(input[k, ], max)
+    search_space <- unique(search_space)
+    for (i in seq_len(nrow(search_space))) {
         vis <- FALSE
-        for (k in seq_len(nrow(input))){
+        for (j in seq_len(nrow(input))) {
             if (vis == FALSE) {
-                sensor <- c(input[k, 1], input[k, 2])
-                beacon_dist <- input[k, 5]
-                vis <- tc_dist(sensor, c(i, j)) <= beacon_dist
+                sensor <- c(input[j, 1], input[j, 2])
+                beacon_dist <- input[j, 5]
+                vis <- tc_dist(sensor, search_space[i, ]) <= beacon_dist
             }
         }
         if (vis == FALSE) {
-            print(c(i, j))
+            print(search_space[i, ])
+            break
         }
     }
+    if (vis == FALSE) {
+    break
+    }
 }
+
+options(digits = 20)
+print(4000000 * search_space[i, 1] + search_space[i, 2])
