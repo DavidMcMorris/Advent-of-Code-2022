@@ -5,7 +5,7 @@ lvl <- 2000000
 
 input <- unlist(strsplit(input, split = ":"))
 input <- unlist(strsplit(input, split = ","))
-input <- as.numeric(gsub("\\D", "", input))
+input <- as.numeric(gsub("[^0-9-]", "", input))
 
 input <- matrix(input, ncol = 4, byrow = TRUE)
 
