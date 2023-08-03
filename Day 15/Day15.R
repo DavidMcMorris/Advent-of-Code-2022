@@ -72,4 +72,4 @@ for (k in seq_len(nrow(input))) {
 }
 
 options(digits = 20)
-print(4000000 * search_space[i, 1] + search_space[i, 2])
+print(max * search_space[i, 1] + search_space[i, 2])
